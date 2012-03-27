@@ -5,6 +5,9 @@ check_graphite.py
 
 :copyright: (c) 2012 DISQUS.
 :license: Apache License 2.0, see LICENSE for more details.
+
+Orig https://github.com/disqus/nagios-plugins
+Fork https://github.com/pascallouisperez/nagios-plugins (python 2.4 compatible)
 """
 
 import json
