@@ -105,8 +105,8 @@ class Graphite(object):
             check_output['WARNING'].append('%s [warn=%f|datapoints=%s]' %\
                 (target, warning, ','.join(['%s' % str(x) for x in warn_oob])))
         else:
-            check_output['OK'].append('%s [warn=%0.3f|crit=%f|datapoints=%s]' %\
-                (target, warning, critical, ','.join(['%s' % str(x) for x in datapoints])))
+            check_output['OK'].append('%s [warn=%0.3f|crit=%f]' %\
+                (target, warning, critical))
 
         return check_output
 
