@@ -13,8 +13,6 @@ import urllib
 import urllib2
 import sys
 
-from numbers import Real
-
 NAGIOS_STATUSES = {
     'OK': 0,
     'WARNING': 1,
@@ -53,7 +51,7 @@ class Graphite(object):
             The list of out of bounds datapoints
         """
         if 'threshold' in kwargs:
-            return [x for x in datapoints if isinstance(x, Real) and check_func(x, kwargs['threshold'])]
+            return [x for x in datapoints if isinstance(x, float) and check_func(x, kwargs['threshold'])]
         elif 'bounds' in kwargs:
             if 'compare' in kwargs:
               return [datapoints[x] for x in xrange(len(datapoints)) if all([datapoints[x], kwargs['bounds'][x], kwargs['compare'][x]]) and check_func(datapoints[x] / kwargs['bounds'][x], kwargs['beyond']) and check_func(datapoints[x], kwargs['compare'][x])]
@@ -97,7 +95,7 @@ class Graphite(object):
         if len(args) > 1:
             (warn_oob, crit_oob) = args
         else:
-            crit_oob = [x for x in args[0] if isinstance(x, Real)]
+            crit_oob = [x for x in args[0] if isinstance(x, float)]
             warn_oob = []
 
         if self.has_numbers(crit_oob) and len(crit_oob) >= count:
@@ -114,7 +112,7 @@ class Graphite(object):
 
     def has_numbers(self, lst):
         try:
-            return any([isinstance(x, Real) for x in lst])
+            return any([isinstance(x, float) for x in lst])
         except TypeError:
             return False
 
@@ -249,7 +247,7 @@ if __name__ == '__main__':
                 sys.exit(NAGIOS_STATUSES['CRITICAL'])
         else:
             for target in metric_data:
-                datapoints = [x[0] for x in target.get('datapoints', []) if isinstance(x[0], Real)]
+                datapoints = [x[0] for x in target.get('datapoints', []) if isinstance(x[0], float)]
                 if not graphite.has_numbers(datapoints) and not options.empty_ok:
                     print 'CRITICAL: No output from Graphite for target(s): %s' % ', '.join(targets)
                     sys.exit(NAGIOS_STATUSES['CRITICAL'])
