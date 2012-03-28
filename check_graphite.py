@@ -80,7 +80,10 @@ class Graphite(object):
             if response.code != 200:
                 return None
             else:
-                return json.loads(response.read())
+                try:
+                    return json.read(response.read())
+                except AttributeError:
+                    return json.loads(response.read())
         except urllib2.URLError, TypeError:
             return None
 
